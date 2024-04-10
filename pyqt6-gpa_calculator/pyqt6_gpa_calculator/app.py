@@ -173,7 +173,16 @@ class MainWindow(QMainWindow):
             self.user_input_row8_layout.addWidget(self.g8_isap)
             self.user_input_row8_layout.addWidget(self.g8_isaide)
 
+            self.g1_dspinbox.setMaximum(int(4))
+            self.g2_dspinbox.setMaximum(int(4))
+            self.g3_dspinbox.setMaximum(int(4))
+            self.g4_dspinbox.setMaximum(int(4))
+            self.g5_dspinbox.setMaximum(int(4))
+            self.g6_dspinbox.setMaximum(int(4))
+            self.g7_dspinbox.setMaximum(int(4))
+            self.g8_dspinbox.setMaximum(int(4))
 
+            self.g1_dspinbox.setSingleStep(.1)
 
 
             self.user_output_row1 = QWidget()
@@ -197,29 +206,20 @@ class MainWindow(QMainWindow):
             self.user_output_row2_layout.addWidget(self.calculate_button)
             self.calculate_button.pressed.connect(self.calculate)
 
+            self.setCentralWidget(self.container)
+
     def calculate(self):
-        (self.g1_dspinbox.value()) + (self.g2_dspinbox.value()) + (self.g3_dspinbox.value()) + (self.g4_dspinbox.value()) + (self.g5_dspinbox.value()) + (self.g6_dspinbox.value()) + (self.g7_dspinbox.value()) + (self.g8_dspinbox.value()) 
-        
+        self.gpa = (self.g1_dspinbox.value()) + (self.g2_dspinbox.value()) + (self.g3_dspinbox.value()) + (self.g4_dspinbox.value()) + (self.g5_dspinbox.value()) + (self.g6_dspinbox.value()) + (self.g7_dspinbox.value()) + (self.g8_dspinbox.value()) 
+        self.gpa_label.setText(self.gpa)
 
 
 
-            self.g1_dspinbox.setMaximum(int(4))
-            # self.g2_dspinbox.setMaximum(int(4))
-            # self.g3_dspinbox.setMaximum(int(4))
-            # self.g4_dspinbox.setMaximum(int(4))
-            # self.g5_dspinbox.setMaximum(int(4))
-            # self.g6_dspinbox.setMaximum(int(4))
-            # self.g7_dspinbox.setMaximum(int(4))
-            # self.g8_dspinbox.setMaximum(int(4))
-
-            self.g1_dspinbox.setSingleStep(.1)
 
 
 
 
             # Set the central widget of the Window. Widget will expand
             # to take up all the space in the window by default.
-            self.setCentralWidget(self.container)
             #self.calculate_btn = QPushButton(text = "Calculate")
             #self.layout.addWidget(self.calculate_btn)
             #self.calculate_btn.pressed.connect(self.calculate_gpa)
