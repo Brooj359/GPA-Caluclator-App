@@ -183,6 +183,13 @@ class MainWindow(QMainWindow):
             self.g8_dspinbox.setMaximum(int(4))
 
             self.g1_dspinbox.setSingleStep(.1)
+            self.g2_dspinbox.setSingleStep(.1)
+            self.g3_dspinbox.setSingleStep(.1)
+            self.g4_dspinbox.setSingleStep(.1)
+            self.g5_dspinbox.setSingleStep(.1)
+            self.g6_dspinbox.setSingleStep(.1)
+            self.g7_dspinbox.setSingleStep(.1)
+            self.g8_dspinbox.setSingleStep(.1)
 
 
             self.user_output_row1 = QWidget()
@@ -195,22 +202,40 @@ class MainWindow(QMainWindow):
             self.user_output_row2.setLayout(self.user_output_row2_layout)
             self.user_output_column_layout.addWidget(self.user_output_row2)
 
+            self.user_output_row3 = QWidget()
+            self.user_output_row3_layout = QHBoxLayout()
+            self.user_output_row3.setLayout(self.user_output_row3_layout)
+            self.user_output_column_layout.addWidget(self.user_output_row3)
+
+            self.user_output_row4 = QWidget()
+            self.user_output_row4_layout = QHBoxLayout()
+            self.user_output_row4.setLayout(self.user_output_row4_layout)
+            self.user_output_column_layout.addWidget(self.user_output_row4)
+
             
             
             self.title_label = QLabel("GPA CALCULATOR")
             self.title_label.setFont(QFont("Helvetica",30))
             self.user_output_row1_layout.addWidget(self.title_label)
 
-            self.calculate_button = QPushButton("Calculate")
+            self.calculate_button = QPushButton("GPA")
             self.calculate_button.setFont(QFont("Helvetica",20))
             self.user_output_row2_layout.addWidget(self.calculate_button)
             self.calculate_button.pressed.connect(self.calculate)
 
+            self.gpa_label = QLabel("     GPA")
+            self.gpa_label.setFont(QFont("Helvetica",50))
+            self.user_output_row3_layout.addWidget(self.gpa_label)
+
+            
+
+            
+
             self.setCentralWidget(self.container)
 
     def calculate(self):
-        self.gpa = (self.g1_dspinbox.value()) + (self.g2_dspinbox.value()) + (self.g3_dspinbox.value()) + (self.g4_dspinbox.value()) + (self.g5_dspinbox.value()) + (self.g6_dspinbox.value()) + (self.g7_dspinbox.value()) + (self.g8_dspinbox.value()) 
-        self.gpa_label.setText(self.gpa)
+        self.gpa = ((self.g1_dspinbox.value()) + (self.g2_dspinbox.value()) + (self.g3_dspinbox.value()) + (self.g4_dspinbox.value()) + (self.g5_dspinbox.value()) + (self.g6_dspinbox.value()) + (self.g7_dspinbox.value()) + (self.g8_dspinbox.value())/8)
+        self.gpa_label.setText(str(self.gpa))
 
 
 
