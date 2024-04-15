@@ -1,1 +1,2 @@
-# gpa_calculator-pyqt6-spring24P4
+# GPA Calculator (Spring 24)
+by Jason Brooks
