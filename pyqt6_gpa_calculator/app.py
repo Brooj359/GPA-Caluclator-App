@@ -1,3 +1,9 @@
+"""
+This code is done by Jason Brooks. This is a calculator app that calculates GPA based on 8 classes with the guidelines following the Century High School grading guidelines.
+Uses PyQt6.
+"""
+
+
 import sys
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
@@ -27,22 +33,25 @@ class MainWindow(QMainWindow):
     
     def UiComponents(self):
             self.container = QWidget()
+
+            #entire layout is horizontal
             self.container_layout = QHBoxLayout()
 
             self.container.setLayout(self.container_layout)
-
+            
+            #adds input column(right)
             self.user_input_column = QWidget()
             self.user_input_column_layout = QVBoxLayout()
             self.user_input_column.setLayout(self.user_input_column_layout)
             self.container_layout.addWidget(self.user_input_column)
 
-
+            #adds output column(right)
             self.user_output_column = QWidget()
             self.user_output_column_layout = QVBoxLayout()
             self.user_output_column.setLayout(self.user_output_column_layout)
             self.container_layout.addWidget(self.user_output_column)
 
-
+            #adds all 9 rows for the right column
             self.user_input_row0 = QWidget()
             self.user_input_row0_layout = QHBoxLayout()
             self.user_input_row0.setLayout(self.user_input_row0_layout)
@@ -88,11 +97,12 @@ class MainWindow(QMainWindow):
             self.user_input_row8.setLayout(self.user_input_row8_layout)
             self.user_input_column_layout.addWidget(self.user_input_row8)
 
-
+            #labels for the aide checkboxes
             self.ap_aide_labels = QLabel("                                AP   Aide")
             self.user_input_row0_layout.addWidget(self.ap_aide_labels)
 
 
+            #Next 8 sections of code contain everything needed for each of the grade inputs. Includes label, double spin box, and checkboxes for aide and ap classes.
             self.g1_label = QLabel("Grade 1:")
             self.g1_dspinbox = QDoubleSpinBox()
             self.g1_isap = QCheckBox()
@@ -173,6 +183,7 @@ class MainWindow(QMainWindow):
             self.user_input_row8_layout.addWidget(self.g8_isap)
             self.user_input_row8_layout.addWidget(self.g8_isaide)
 
+            #sets maximum value of double spin boxes
             self.g1_dspinbox.setMaximum(int(4))
             self.g2_dspinbox.setMaximum(int(4))
             self.g3_dspinbox.setMaximum(int(4))
@@ -182,6 +193,7 @@ class MainWindow(QMainWindow):
             self.g7_dspinbox.setMaximum(int(4))
             self.g8_dspinbox.setMaximum(int(4))
 
+            #sets the amount that each is step increases by for double spin boxes
             self.g1_dspinbox.setSingleStep(.1)
             self.g2_dspinbox.setSingleStep(.1)
             self.g3_dspinbox.setSingleStep(.1)
@@ -191,7 +203,9 @@ class MainWindow(QMainWindow):
             self.g7_dspinbox.setSingleStep(.1)
             self.g8_dspinbox.setSingleStep(.1)
 
+            #The following code is the entire output column(right column)
 
+            #next 4 sections of code adds horizontal boxes for each row
             self.user_output_row1 = QWidget()
             self.user_output_row1_layout = QHBoxLayout()
             self.user_output_row1.setLayout(self.user_output_row1_layout)
@@ -206,8 +220,14 @@ class MainWindow(QMainWindow):
             self.user_output_row3_layout = QHBoxLayout()
             self.user_output_row3.setLayout(self.user_output_row3_layout)
             self.user_output_column_layout.addWidget(self.user_output_row3)
+            
+            self.user_output_row4 = QWidget()
+            self.user_output_row4_layout = QHBoxLayout()
+            self.user_output_row4.setLayout(self.user_output_row4_layout)
+            self.user_output_column_layout.addWidget(self.user_output_row4)
 
             
+            #next four sections of code adds content to each horizontal row
             self.title_label = QLabel("GPA CALCULATOR")
             self.title_label.setFont(QFont("Helvetica",30))
             self.user_output_row1_layout.addWidget(self.title_label)
@@ -222,9 +242,19 @@ class MainWindow(QMainWindow):
             self.user_output_row3_layout.addWidget(self.gpa_label)
             self.gpa_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-            self.setCentralWidget(self.container)
+            self.grade_label = QLabel(" ")
+            self.grade_label.setFont(QFont("Helvetica",30))
+            self.user_output_row4_layout.addWidget(self.grade_label)
+            self.grade_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+            self.setCentralWidget(self.container)
+    """
+    This function is the calculate function, though it does more, which is activated by pressing the button. It sets the double spin box values as seperate values, accounts 
+    for AP and Aide classes, sets the number for the gpa label and sets the letter grade for the grade label.
+    """
     def calculate(self):
+
+        #Sets double spin box values to different values that can be manipulated elsewhere
         self.fixed_value1 = self.g1_dspinbox.value()
         self.fixed_value2 = self.g2_dspinbox.value()
         self.fixed_value3 = self.g3_dspinbox.value()
@@ -233,6 +263,8 @@ class MainWindow(QMainWindow):
         self.fixed_value6 = self.g6_dspinbox.value()
         self.fixed_value7 = self.g7_dspinbox.value()
         self.fixed_value8 = self.g8_dspinbox.value()
+
+        #Checks if a class is AP and adds 1 to its value
         if self.g1_isap.isChecked() == True:
             self.fixed_value1 += 1
         if self.g2_isap.isChecked() == True:
@@ -249,27 +281,55 @@ class MainWindow(QMainWindow):
             self.fixed_value7 += 1
         if self.g8_isap.isChecked() == True:
             self.fixed_value8 += 1
+
+        #if a class is an aide class, it is not counted when calculating gpa, so 1 is subtracted from this for every aide class
+        self.number_of_classes = 8
+
+        #checks if each grade is Aide, can have mutiple aide classes
         if self.g1_isaide.isChecked() == True:
             self.fixed_value1 = 0
+            self.number_of_classes -= 1
         if self.g2_isaide.isChecked() == True:
             self.fixed_value2 = 0
+            self.number_of_classes -= 1
         if self.g3_isaide.isChecked() == True:
             self.fixed_value3 = 0
+            self.number_of_classes -= 1
         if self.g4_isaide.isChecked() == True:
             self.fixed_value4 = 0
+            self.number_of_classes -= 1
         if self.g5_isaide.isChecked() == True:
             self.fixed_value5 = 0
+            self.number_of_classes -= 1
         if self.g6_isaide.isChecked() == True:
             self.fixed_value6 = 0
+            self.number_of_classes -= 1
         if self.g7_isaide.isChecked() == True:
             self.fixed_value7 = 0
+            self.number_of_classes -= 1
         if self.g8_isaide.isChecked() == True:
             self.fixed_value8 = 0
-        self.gpa = round(((self.fixed_value1) + (self.fixed_value2) + (self.fixed_value3) + (self.fixed_value4) + (self.fixed_value5) + (self.fixed_value6) + (self.fixed_value7) + (self.fixed_value8))/8,2)
+            self.number_of_classes -= 1
+        if self.number_of_classes == 0:
+            self.number_of_classes = 1
+
+        #Equation to calculate GPA
+        self.gpa = round(((self.fixed_value1) + (self.fixed_value2) + (self.fixed_value3) + (self.fixed_value4) + (self.fixed_value5) + (self.fixed_value6) + (self.fixed_value7) + (self.fixed_value8))/self.number_of_classes,2)
         self.gpa_label.setText(str(self.gpa))
-        
 
+        #Determines what letter grade based on GPA
+        if self.gpa > 3.2:
+            self.grade_label.setText("A")
+        if 3.2 > self.gpa > 2.4:
+            self.grade_label.setText("B")
+        if 2.4 > self.gpa > 1.6:
+            self.grade_label.setText("C")
+        if 1.6 > self.gpa > .8:
+            self.grade_label.setText("D")
+        if self.gpa < .8:
+            self.grade_label.setText("F")
 
+    
 app = QApplication(sys.argv)
 window = MainWindow()
 window.show()
